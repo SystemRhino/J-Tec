@@ -38,11 +38,12 @@ require('conecta.php');
 			  }elseif ($script_email->rowCount() > 0){
 			  	 echo "E-mail já cadastrado!";
 			  }else{
-				 $stmt = $conn->prepare('INSERT INTO tb_users(ds_login, ds_senha, nm_user) VALUES (:login, :senha, :user)');
+				 $stmt = $conn->prepare('INSERT INTO tb_users(ds_login, ds_senha, nm_user, id_nivel) VALUES (:login, :senha, :user, :id_nivel)');
 					$stmt->execute(array(
 				 ':login' => $login,
 				 ':senha' => $senha,
-				 ':user' => $user
+				 ':user' => $user,
+				 ':id_nivel' => 2
 				 ));
 
 				 // Consultando as informações do user
