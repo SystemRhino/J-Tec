@@ -16,10 +16,11 @@ Excluir categoria
 Compartilhar noticia
 Listagem de dados de user
 Excluir usuarios
+Edição de dados de user
+Excluir noticias
 ===================
 [X] Não Feitos [X]
 ===================
 Cadastrar notícias
-Edição de dados de user
 Editar noticias
-Excluir noticias
+

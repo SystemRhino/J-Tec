@@ -62,6 +62,7 @@ $att_views->execute();
 	<img height="450" width="700" src="img/<?php echo $noticia['img_1'];?>"><br>
 	<h2><?php echo $noticia['nm_noticia']; ?></h2><br>
 	<p><?php echo $noticia['ds_noticia']; ?></p>
+  <i><?php echo $noticia['data_post']; ?></i>
 	<p><?php echo $noticia['nr_curtidas']; ?></p>
 	<div><img width="20" height="20" src="img/<?php echo $autor['ds_img']; ?>"><b><?php echo $autor['nm_user'];?></b></div>
 

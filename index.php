@@ -24,6 +24,7 @@ $id_categoria = $_GET['categoria'];
 $script_noticias = $conn->prepare("SELECT * FROM tb_noticia WHERE id_categoria = '$id_categoria'");
 $script_noticias->execute();
 $text = "Busca por Categoria";
+
 }else{
 //Consulta Últimas Notícia
 $script_noticias = $conn->prepare("SELECT * FROM tb_noticia ORDER BY id DESC LIMIT 5");
@@ -79,7 +80,7 @@ if(!isset($_GET['categoria'])){ ?>
 <h1>Em Alta</h1>
 <?php while ($noticia_alta = $script_noticias_alta->fetch(PDO::FETCH_ASSOC)) { 
 $id_autor_alta = $noticia_alta['id_autor'];
-$script_nome_autor_alta = $conn->prepare("SELECT * FROM tb_users WHERE id = '$id_autor'");
+$script_nome_autor_alta = $conn->prepare("SELECT * FROM tb_users WHERE id = '$id_autor_alta'");
 $script_nome_autor_alta->execute();
 $nome_autor_alta = $script_nome_autor_alta->fetch(PDO::FETCH_ASSOC);
 ?>
@@ -93,8 +94,8 @@ $nome_autor_alta = $script_nome_autor_alta->fetch(PDO::FETCH_ASSOC);
 <!-- Notícias Populares -->
 <h1>Mais Populares</h1>
 <?php while ($noticia_populares = $script_noticias_populares->fetch(PDO::FETCH_ASSOC)) { 
-$id_autor_alta = $noticia_populares['id_autor'];
-$script_nome_autor_popular = $conn->prepare("SELECT * FROM tb_users WHERE id = '$id_autor'");
+$id_autor_popular = $noticia_populares['id_autor'];
+$script_nome_autor_popular = $conn->prepare("SELECT * FROM tb_users WHERE id = '$id_autor_popular'");
 $script_nome_autor_popular->execute();
 $nome_autor_popular = $script_nome_autor_popular->fetch(PDO::FETCH_ASSOC);
 ?>

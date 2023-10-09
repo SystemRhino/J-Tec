@@ -10,6 +10,10 @@
   <a href="login.php">Login</a> |
 <?php }?>
 
+<?php if($_SESSION['nivel'] = 1){?>
+  <a href="./adm/">Adm</a> |
+<?php }?>
+
   <!-- Pesquisar -->
 <form action="search.php" method="GET">
 	<input type="text" name="data" placeholder="Pesquise uma noticia">
