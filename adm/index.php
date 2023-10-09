@@ -12,8 +12,9 @@ if ($_SESSION['nivel'] != 1) {
 </head>
 <body>
 
-<a href="categoria.php">Cadsatrar Categoria</a>
-<a>Cadastrar Noticia</a>
+<a href="categoria.php">Categoria</a>
+<a href="users.php">Users</a>
+<a href="noticia.php">Noticia</a>
 
 </body>
 </html>

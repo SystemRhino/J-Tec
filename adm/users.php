@@ -5,7 +5,7 @@ if ($_SESSION['nivel'] != 1) {
 }
 include('php/conecta.php');
 
-//Consulta Categoria
+//Consulta User
 $script_users = $conn->prepare("SELECT * FROM tb_users");
 $script_users->execute();
 
@@ -45,13 +45,26 @@ $script_nivel->execute();
 
 	<!-- JS -->
 	<script src="js/jquery-3.6.0.min.js"></script>
+<body>
+	<!-- Tag "span" usada para retorno do ajax -->
+	<span></span><br>
+
+<input type="text" id="user" placeholder="Nome de usuário"><br>
+<input type="text" id="login" placeholder="E-mail"><br>
+<input type="text" id="password" placeholder="Senha"><br>
+<select id="id_nivel">
+	<option value="1">Admin</option>
+	<option value="2">User</option>
+</select>
+<button id="cadastrar_user">Cadastrar</button><br><br>
+
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$("#cadastrar").click(function(){
+			$("#cadastrar_user").click(function(){
   			$.ajax({
-  				url: "php/script_categoria.php",
+  				url: "php/script_cadastro.php",
   				type: "POST",
-  				data: "categoria="+$("#categoria").val(),
+  				data: "login="+$("#login").val()+"&password="+$("#password").val()+"&user="+$("#user").val()+"&id_nivel="+$("#id_nivel").val(),
   				dataType: "html"
   			}).done(function(resposta) {
 	    $("span").html(resposta);
@@ -65,16 +78,6 @@ $script_nivel->execute();
   	});
 });
 	</script>
-<body>
-	<!-- Tag "span" usada para retorno do ajax -->
-	<span></span><br>
-
-
-<input type="text" id="categoria" placeholder="Nome da categoria"><br>
-<button id="cadastrar">Cadastrar</button>
-<br><br>
-</head>
-<body>
 
 	<!-- Tabela exibindo dados da categoria -->
 	<table>
@@ -108,11 +111,11 @@ $script_nivel->execute();
 
 <script type="text/javascript">
 		$(document).ready(function(){
-			$("#edit_categoria_<?php echo $users['id']; ?>").click(function(){
+			$("#edit_user_<?php echo $users['id']; ?>").click(function(){
   			$.ajax({
-  				url: "php/edit_users.php",
+  				url: "php/edit_user.php",
   				type: "POST",
-  				data: "nm_user="+$("#nm_user_<?php echo $users['id']; ?>").val()+"&ds_login="+<?php echo $users['id'];?>+"&ds_login="+$("#ds_login_<?php echo $users['id']; ?>").val()+"&ds_senha="+$("#ds_senha_<?php echo $users['id']; ?>").val()+"&id_nivel="+$("#id_nivel_<?php echo $users['id']; ?>").val(),
+  				data: "nm_user="+$("#nm_user_<?php echo $users['id']; ?>").val()+"&ds_login="+<?php echo $users['id'];?>+"&ds_login="+$("#ds_login_<?php echo $users['id']; ?>").val()+"&ds_senha="+$("#ds_senha_<?php echo $users['id']; ?>").val()+"&id_nivel="+$("#id_nivel_<?php echo $users['id']; ?>").val()+"&id="+<?php echo $users['id'];?>,
   				dataType: "html"
   			}).done(function(resposta) {
 	    $("span").html(resposta);
@@ -142,18 +145,24 @@ $script_nivel->execute();
 			       <input type="text" id="ds_login_<?php echo $users['id']; ?>" placeholder="E-mail" value="<?php echo $users['ds_login']; ?>"><br>
 			       <input type="text" id="ds_senha_<?php echo $users['id']; ?>" placeholder="Senha" value="<?php echo $users['ds_senha']; ?>"><br>
 					
-					<!--  
+					 
 			       <select id="id_nivel_<?php echo $users['id']; ?>">
-			       	<?php while ($nivel = $script_nivel->fetch(PDO::FETCH_ASSOC)) { ?>
-			       	<option value="<?php echo $nivel['id']; ?>"><?php echo $nivel['nm_nivel']; ?></option>
-			       <?php } ?>
+				   <option value="<?php echo $users['id_nivel']; ?>">
+				   <?php if($users['id_nivel'] == 1){ 
+						echo "Admin";
+					 }else{ 
+						echo "User";
+					 } ?>
+					</option>
+			       	<option value="2">User</option>
+					   <option value="1">Admin</option>
 			       </select>
-					-->
+					
 					
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-			        <button type="button" class="btn btn-primary" id="edit_categoria_<?php echo $users['id']; ?>">Salvar Alterações</button>
+			        <button type="button" class="btn btn-primary" id="edit_user_<?php echo $users['id']; ?>">Salvar Alterações</button>
 			      </div>
 			    </div>
 			  </div>
