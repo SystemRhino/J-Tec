@@ -1,0 +1,25 @@
+===================
+[✔] Já Feitos [✔]
+===================
+View noticia
+Listar noticia
+Login
+Cadastro
+Filtro de noticia
+Pesquisa de noticia
+Add comentarios
+Avaliar noticia
+Seguir autores
+Cadastrar categoria
+Editar categoria
+Excluir categoria
+Compartilhar noticia
+Listagem de dados de user
+Excluir usuarios
+===================
+[X] Não Feitos [X]
+===================
+Cadastrar notícias
+Edição de dados de user
+Editar noticias
+Excluir noticias
