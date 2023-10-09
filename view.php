@@ -5,8 +5,11 @@ session_start();
 require'php/conecta.php';
 $id = $_GET['id'];
 if(isset($_SESSION['id'])){
-$id_user = $_SESSION['id'];  
-}else
+  $id_user = $_SESSION['id'];
+  $session = true;
+}else{
+  $session = false;
+}
 
 //Consulta Notícia
 $script_noticias = $conn->prepare("SELECT * FROM tb_noticia WHERE id ='$id'");
@@ -20,9 +23,11 @@ $script_autor = $conn->prepare("SELECT * FROM tb_users WHERE id ='$id_autor'");
 $script_autor->execute();
 $autor = $script_autor->fetch(PDO::FETCH_ASSOC);
 
+if ($session == true){
 //Consultar seguindo autor
 $script_seguindo_autor = $conn->prepare("SELECT * FROM tb_seguidores WHERE id_autor ='$id_autor' and id_seguidor ='$id_user'");
 $script_seguindo_autor->execute();
+}
 
 //Consulta Categoria
 $script_categoria = $conn->prepare("SELECT * FROM tb_categoria WHERE id ='$id_categoria'");
@@ -36,6 +41,11 @@ $script_noticias_categoria->execute();
 //Consulta Comentarios
 $script_comentarios = $conn->prepare("SELECT * FROM tb_comentario WHERE id_noticia ='$id' ORDER BY id DESC");
 $script_comentarios->execute();
+
+//Atualizar Views
+$qnt = $noticia['views'] +1;
+$att_views = $conn->prepare("UPDATE `tb_noticia` SET `views` = '$qnt' WHERE (`id` = '$id');");
+$att_views->execute();
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,6 +56,9 @@ $script_comentarios->execute();
 	<title><?php echo $noticia['nm_noticia']; ?></title>
 </head>
 <body>
+<!-- Nav -->
+<?php include('nav.php');?>
+
 	<img height="450" width="700" src="img/<?php echo $noticia['img_1'];?>"><br>
 	<h2><?php echo $noticia['nm_noticia']; ?></h2><br>
 	<p><?php echo $noticia['ds_noticia']; ?></p>
@@ -53,14 +66,15 @@ $script_comentarios->execute();
 	<div><img width="20" height="20" src="img/<?php echo $autor['ds_img']; ?>"><b><?php echo $autor['nm_user'];?></b></div>
 
 	<!-- Seguir autor -->
+  <?php if ($session == true){?>
 	<?php if ($script_seguindo_autor->rowCount()>0){ ?>
 	<button id="seguir">Deixar de seguir</button>
 	<?php }else{ ?>
 	<button id="seguir">Seguir</button>
 	<?php } ?>	
-
 	<button id="curtir">Curtir</button><br>
-
+  <?php }?>
+  
 <!-- Compartilhar nas redes sociais -->
 <button class="copyTest" data-bs-toggle="modal" data-bs-target="#modalCompartilhar">Compartilhar</button>
 <br>
@@ -91,23 +105,27 @@ $script_comentarios->execute();
   		</div>
 <?php }?>
 
+<?php if ($session == true){?>
 	<!-- Tag "span" usada para retorno do comentario -->
 	<span></span><br>
+
 	<!-- Adiconar Comenatario -->
 	<textarea id="comentario" placeholder="Deixe um comentario"></textarea>
 	<br><button id="comentar">Comentar</button><br>
+<?php }else{?>
+  <p>Faça login para poder comentar!</p>
+<?php }?>
 
 	<!-- While dos comentarios -->
 	<h2>Comentários</h1>
 <?php  
 while ($comentario = $script_comentarios->fetch(PDO::FETCH_ASSOC)) {
-
 	$id_user = $comentario['id_user'];
 	$script_users = $conn->prepare("SELECT * FROM tb_users WHERE id ='$id_user'");
 	$script_users->execute();	
 	$user = $script_users->fetch(PDO::FETCH_ASSOC);
+?>
 
-	?>
 	<img height="50" width="50" src="img/<?php echo $user['ds_img'];?>"><b><?php echo $user['nm_user'];?></b><p><i><?php echo $comentario['comentario']?></i></p><p><?php echo $comentario['data'];?></p>
 	<hr>
 <?php }?>

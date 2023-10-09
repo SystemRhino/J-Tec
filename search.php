@@ -30,11 +30,8 @@ $search_nm->execute();
 	<title>Home | J-Tec	</title>
 </head>
 <body>
-<!-- Pesquisar -->
-<form action="search.php" method="GET">
-	<input type="text" name="data" placeholder="Pesquise uma noticia">
-	<input type="submit" value="Pesquisar">
-</form>
+<!-- Nav -->
+<?php include('nav.php');?>
 <hr>
 
 <!-- While categoria -->
