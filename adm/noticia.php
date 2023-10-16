@@ -50,36 +50,21 @@ $script_noticia->execute();
 	<!-- Tag "span" usada para retorno do ajax -->
 	<span></span><br>
 
-<input type="text" id="user" placeholder="Titulo da Notícia"><br>
-<input type="text" id="login" placeholder="Descrição"><br> <!-- Aqui, TextArea -->
-<input type="text" id="password" placeholder="Senha"><br> 
-<select id="id_nivel">
-	<option value="1">Admin</option>
-	<option value="2">User</option>
-</select>
-<button id="cadastrar_user">Cadastrar</button><br><br>
+	<!-- Fomr cadastro noticias -->
+<form id="form_noticia" method="post" enctype="multipart/form-data">
+<input type="file" name="img_1"><br>
+<input type="file" name="img_2"><br>
+<input type="text" name="nm_noticia" placeholder="Titulo da Notícia"><br>
+<textarea name="ds_noticia" placeholder="Descrição"></textarea><br>
+
+<select name="id_categoria">
+<?php while ($categoria = $script_categoria->fetch(PDO::FETCH_ASSOC)) {?>	
+	<option value="<?php echo $categoria['id']?>"><?php echo $categoria['nm_categoria']?></option>
+<?php }?>
+</select><br>
+<button type="submit" id="enviar">Enviar</button>
+</form>
 </body>
-
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#cadastrar_user").click(function(){
-  			$.ajax({
-  				url: "php/script_user.php",
-  				type: "POST",
-  				data: "login="+$("#login").val()+"&password="+$("#password").val()+"&user="+$("#user").val()+"&id_nivel="+$("#id_nivel").val(),
-  				dataType: "html"
-  			}).done(function(resposta) {
-	    $("span").html(resposta);
-
-		}).fail(function(jqXHR, textStatus ) {
-	    console.log("Request failed: " + textStatus);
-
-		}).always(function() {
-	    console.log("completou");
-		});
-  	});
-});
-	</script>
 
 	<!-- Tabela exibindo dados da categoria -->
 	<table>
@@ -192,6 +177,31 @@ $user = $script_user->fetch(PDO::FETCH_ASSOC);
 		</tbody>
 	</table>
 	<br>
+
+	<script>
+  $(document).ready(function() {
+  $('#form_noticia').submit(function(event) {
+    event.preventDefault(); // Impede o envio padrão do formulário
+    var form_data = new FormData(this);
+
+  $.ajax({
+    url: 'script_noticia.php', // Arquivo PHP para processar os dados
+    type: 'POST',
+    data: form_data, 
+    contentType: false,
+    processData: false,
+    success: function(response) {
+		$("span").html(response); // Exibe a resposta do servidor
+    
+      },
+    error: function(xhr, status, error) {
+    console.log(xhr.responseText);
+
+      }
+    });
+  });
+});
+</script>
 
 </body>
 </html>
