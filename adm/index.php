@@ -3,6 +3,8 @@ session_start();
 if ($_SESSION['nivel'] != 1) {
 	header('location:../');
 }
+$dir = basename(__DIR__);
+include('../nav.php')
 ?>
 <!DOCTYPE html>
 <html>
