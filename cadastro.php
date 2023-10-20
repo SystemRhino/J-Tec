@@ -17,31 +17,39 @@ if (isset($_SESSION['id'])) {
 	<!-- Tag "span" usada para retorno do ajax -->
 	<span></span><br>
 
-<input type="text" id="user" placeholder="Nome de usuário"><br>
-<input type="text" id="login" placeholder="E-mail"><br>
-<input type="text" id="password" placeholder="Senha"><br>
-<button id="cadastrar">Cadastrar</button><br>
+	<!-- Fomr cadastro user -->
+<form id="form_cadastro" method="post" enctype="multipart/form-data">
+<input type="file" name="ds_img"><br>
+<input type="text" name="user" placeholder="Nome de usuário"><br>
+<input type="text" name="login" placeholder="E-mail"><br>
+<input type="text" name="password" placeholder="Senha"><br>
+<button type="submit" id="enviar">Cadastrar</button>
 <a href="login.php">Login</a>
+</form>
 </body>
 
 	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#cadastrar").click(function(){
-  			$.ajax({
-  				url: "php/script_cadastro.php",
-  				type: "POST",
-  				data: "login="+$("#login").val()+"&password="+$("#password").val()+"&user="+$("#user").val(),
-  				dataType: "html"
-  			}).done(function(resposta) {
-	    $("span").html(resposta);
+$(document).ready(function() {
+  $('#form_cadastro').submit(function(event) {
+    event.preventDefault(); // Impede o envio padrão do formulário
+    var form_data = new FormData(this);
 
-		}).fail(function(jqXHR, textStatus ) {
-	    console.log("Request failed: " + textStatus);
+  $.ajax({
+    url: 'php/script_cadastro.php', // Arquivo PHP para processar os dados
+    type: 'POST',
+    data: form_data, 
+    contentType: false,
+    processData: false,
+    success: function(response) {
+		$("span").html(response); // Exibe a resposta do servidor
+    
+      },
+    error: function(xhr, status, error) {
+    console.log(xhr.responseText);
 
-		}).always(function() {
-	    console.log("completou");
-		});
-  	});
+      }
+    });
+  });
 });
 	</script>
 </html>
