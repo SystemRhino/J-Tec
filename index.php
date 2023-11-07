@@ -2,6 +2,11 @@
 include('php/conecta.php');
 session_start();
 
+//Consulta Placar
+$script_placar = $conn->prepare("SELECT * FROM tb_placar");
+$script_placar->execute();
+$placar = $script_placar->fetch(PDO::FETCH_ASSOC);
+
 //Consulta Notícias em Alta
 $script_noticias_alta = $conn->prepare("SELECT * FROM tb_noticia  ORDER BY views DESC");
 $script_noticias_alta->execute();
@@ -18,7 +23,7 @@ $script_comentarios->execute();
 $script_categoria = $conn->prepare("SELECT * FROM tb_categoria");
 $script_categoria->execute();
 
-if(isset($_GET['categoria'])){
+if(isset($_GET['categoria'])){ 
 $id_categoria = $_GET['categoria'];
 //Consulta Notícia Filtro Categoria
 $script_noticias = $conn->prepare("SELECT * FROM tb_noticia WHERE id_categoria = '$id_categoria'");
@@ -48,6 +53,14 @@ $text = "Últimas Notícias";
 	<button onclick="window.location.href = 'index.php?categoria=<?= $categoria['id']?>'"><?php echo $categoria['nm_categoria']; ?></button>
 <?php } ?>
 <hr>
+
+<!-- Placar -->
+<?php if($script_placar->rowCount()>0){?>
+<div>
+<?php echo $placar['nm_time_1']." ".$placar['gols_1'];?> <b>X</b> <?php echo $placar['nm_time_2']." ".$placar['gols_2'];?>
+</div>
+<?php }?>
+<br>
 
 <!-- While Últimas Noticias -->
 	<h1><?php echo $text?></h1>
