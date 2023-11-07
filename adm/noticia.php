@@ -9,9 +9,13 @@ include('php/conecta.php');
 $script_categoria = $conn->prepare("SELECT * FROM tb_categoria");
 $script_categoria->execute();
 
-//Consulta Nivel
+//Consulta Noitcia
 $script_noticia = $conn->prepare("SELECT * FROM tb_noticia");
 $script_noticia->execute();
+
+//Consulta Noitcia
+$script_user = $conn->prepare("SELECT * FROM tb_users");
+$script_user->execute();
 ?>
 <!DOCTYPE html>
 <html>
@@ -62,6 +66,13 @@ $script_noticia->execute();
 	<option value="<?php echo $categoria['id']?>"><?php echo $categoria['nm_categoria']?></option>
 <?php }?>
 </select><br>
+
+<select name="id_autor">
+<?php while ($user = $script_user->fetch(PDO::FETCH_ASSOC)) {?>	
+	<option value="<?php echo $user['id']?>"><?php echo $user['nm_user']?></option>
+<?php }?>
+</select><br><br>
+
 <button type="submit" id="enviar">Enviar</button>
 </form>
 </body>
@@ -116,11 +127,11 @@ $user = $script_user->fetch(PDO::FETCH_ASSOC);
 
 <script type="text/javascript">
 		$(document).ready(function(){
-			$("#edit_user_<?php echo $noticia['id']; ?>").click(function(){
+			$("#edit_noticia_<?php echo $noticia['id']; ?>").click(function(){
   			$.ajax({
-  				url: "php/edit_user.php",
+  				url: "php/edit_noticia.php",
   				type: "POST",
-  				data: "nm_user="+$("#nm_user_<?php echo $noticia['id']; ?>").val()+"&ds_login="+<?php echo $noticia['id'];?>+"&ds_login="+$("#ds_login_<?php echo $noticia['id']; ?>").val()+"&ds_senha="+$("#ds_senha_<?php echo $noticia['id']; ?>").val()+"&id_nivel="+$("#id_nivel_<?php echo $noticia['id']; ?>").val()+"&id="+<?php echo $noticia['id'];?>,
+  				data: "nm_noticia="+$("#nm_noticia_<?php echo $noticia['id']; ?>").val()+"&ds_noticia="+$("#ds_noticia_<?php echo $noticia['id']; ?>").val()+"&categoria="+$("#option_categoria_<?php echo $noticia['id']; ?>").val()+"&autor="+$("#option_user_<?php echo $noticia['id']; ?>").val()+"&id="+<?php echo $noticia['id'];?>,
   				dataType: "html"
   			}).done(function(resposta) {
 	    $("span").html(resposta);
@@ -141,33 +152,44 @@ $user = $script_user->fetch(PDO::FETCH_ASSOC);
 			    <div class="modal-content">
 			    	<span id="edit"></span>
 			      <div class="modal-header">
+					<span></span>
 			        <h5 class="modal-title" id="exampleModalLabel">Editar User #<b id="id_<?php echo $noticia['id']; ?>"><?php echo $noticia['id']; ?></b></h5>
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			      </div>
 			      <div class="modal-body">
 			      	<!-- Inputs -->
-			       <input type="text" id="nm_user_<?php echo $noticia['id']; ?>" placeholder="Nome" value="<?php echo $noticia['nm_user']; ?>"><br>
-			       <input type="text" id="ds_login_<?php echo $noticia['id']; ?>" placeholder="E-mail" value="<?php echo $noticia['ds_login']; ?>"><br>
-			       <input type="text" id="ds_senha_<?php echo $noticia['id']; ?>" placeholder="Senha" value="<?php echo $noticia['ds_senha']; ?>"><br>
-					
-					 
-			       <select id="id_nivel_<?php echo $noticia['id']; ?>">
-				   <option value="<?php echo $noticia['id_nivel']; ?>">
-				   <?php if($noticia['id_nivel'] == 1){ 
-						echo "Admin";
-					 }else{ 
-						echo "User";
-					 } ?>
-					</option>
-			       	<option value="2">User</option>
-					   <option value="1">Admin</option>
-			       </select>
-					
+			       <input type="text" id="nm_noticia_<?php echo $noticia['id']; ?>" placeholder="Titulo" value="<?php echo $noticia['nm_noticia']; ?>"><br>
+			       <input type="text" id="ds_noticia_<?php echo $noticia['id']; ?>" placeholder="Descrição" value="<?php echo $noticia['ds_noticia']; ?>"><br>
+
+
+<?php 
+//Consulta Select Categoria
+$script_categoria_select = $conn->prepare("SELECT * FROM tb_categoria");
+$script_categoria_select->execute();
+
+//Consulta User
+$script_user_select = $conn->prepare("SELECT * FROM tb_users");
+$script_user_select->execute();
+?>
+
+					<!-- Select Categoria -->
+					<select id="option_categoria_<?php echo $noticia['id'];?>">
+					<?php while($categoria_select = $script_categoria_select->fetch(PDO::FETCH_ASSOC)){?>
+					<option value="<?php echo $categoria_select['id'];?>"><?php echo $categoria_select['nm_categoria'];?></option>
+					<?php }?>
+				   </select>
+<br>
+				   <!-- Select User -->
+				   <select id="option_user_<?php echo $noticia['id'];?>">
+					<?php while($user_select = $script_user_select->fetch(PDO::FETCH_ASSOC)){?>
+					<option value="<?php echo $user_select['id'];?>"><?php echo $user_select['nm_user'];?></option>
+					<?php }?>
+				   </select>
 					
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-			        <button type="button" class="btn btn-primary" id="edit_user_<?php echo $noticia['id']; ?>">Salvar Alterações</button>
+			        <button type="button" class="btn btn-primary" id="edit_noticia_<?php echo $noticia['id']; ?>">Salvar Alterações</button>
 			      </div>
 			    </div>
 			  </div>

@@ -21,7 +21,7 @@ if($ext_1 == '.jpg' || $ext_1 == 'jpeg' || $ext_1 == '.png' || $ext_2 == '.jpg' 
             ':img_2' => $nomeFinal_2,
             ':nr_curtidas' => 0,
             ':id_categoria' => $_POST['id_categoria'],
-            ':id_autor' => $_SESSION['id'],
+            ':id_autor' => $_POST['id_autor'],
             ':views' => 0
         ));
         echo "<meta HTTP-EQUIV='refresh' CONTENT='0'>";
