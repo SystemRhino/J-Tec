@@ -129,7 +129,7 @@ while ($comentario = $script_comentarios->fetch(PDO::FETCH_ASSOC)) {
 	$script_users->execute();	
 	$user = $script_users->fetch(PDO::FETCH_ASSOC);
 	?>
-	<b><?php echo $user['nm_user'];?></b><p><i><?php echo $comentario['comentario']?></i></p><p><?php echo $comentario['data'];?></p>
+	<div onclick="window.location.href = 'view.php?id=<?= $comentario['id_noticia']?>'"><b><?php echo $user['nm_user'];?></b><p><i><?php echo $comentario['comentario']?></i></p><p><?php echo $comentario['data'];?></p></div>
 	<hr>
 <?php }?>
 

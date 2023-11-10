@@ -14,6 +14,18 @@ $user = $script_user->fetch(PDO::FETCH_ASSOC);
 //Consulta Notícia
 $script_noticias = $conn->prepare("SELECT * FROM tb_noticia WHERE id_autor = '$id'");
 $script_noticias->execute();
+
+//Consulta Count Notícia
+$script_count_noticias = $conn->prepare("SELECT COUNT(*) FROM tb_noticia WHERE id='$id'");
+$script_count_noticias->execute();
+$count = $script_count_noticias->fetch(PDO::FETCH_ASSOC);
+$n_de_noticias = $count['COUNT(*)'];
+
+//Consulta Count Notícia
+$script_count_noticias = $conn->prepare("SELECT COUNT(*) FROM tb_noticia WHERE id='$id'");
+$script_count_noticias->execute();
+$count = $script_count_noticias->fetch(PDO::FETCH_ASSOC);
+$n_de_noticias = $count['COUNT(*)'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -97,4 +109,16 @@ $(document).ready(function() {
   });
 });
 	</script>
+
+<h2>Estatisticas</h2>
+<br>
+<div>
+  <h4>Número de noticias</h4>
+  <p><?php echo $n_de_noticias;?></p>
+</div>
+
+<div>
+  <h4>Número de avaliações</h4>
+  <p><?php echo $n_de_noticias;?></p>
+</div>
 </html>

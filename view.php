@@ -14,6 +14,9 @@ if(isset($_SESSION['id'])){
 //Consulta Notícia
 $script_noticias = $conn->prepare("SELECT * FROM tb_noticia WHERE id ='$id'");
 $script_noticias->execute();
+if($script_noticias->rowCount()<1){
+  header('location:./');
+  }
 $noticia = $script_noticias->fetch(PDO::FETCH_ASSOC);
 $id_categoria = $noticia['id_categoria'];
 $id_autor = $noticia['id_autor'];
