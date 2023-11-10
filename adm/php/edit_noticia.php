@@ -10,8 +10,8 @@ if ($_SESSION['nivel'] != 1) {
         $autor = $_POST['autor'];
 		include('conecta.php');
 		try {
-		  $att_categoria = $conn->prepare("UPDATE tb_noticia SET nm_noticia = '$nm_noticia', ds_noticia = '$ds_noticia', id_categoria = '$categoria', id_autor = '$autor' WHERE id = '$id'");
-		  $att_categoria->execute();
+		  $att_noticia = $conn->prepare("UPDATE tb_noticia SET nm_noticia = '$nm_noticia', ds_noticia = '$ds_noticia', id_categoria = '$categoria', id_autor = '$autor' WHERE id = '$id'");
+		  $att_noticia->execute();
 		  echo "<meta HTTP-EQUIV='refresh' CONTENT='0'>";
 		} catch(PDOException $e) {
 		    echo $e;
