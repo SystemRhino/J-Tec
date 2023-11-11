@@ -17,6 +17,6 @@ include('../nav.php')
 <a href="categoria.php">Categoria</a>
 <a href="users.php">Users</a>
 <a href="noticia.php">Noticia</a>
-
+<a href="placar.php">Placar</a>
 </body>
 </html>
