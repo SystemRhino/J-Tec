@@ -128,7 +128,17 @@ CREATE TABLE `jtec`.`tb_placar` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf32;
 
-
+-- -----------------------------------------------------
+-- Table `jtec`.`tb_cursos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `jtec`.`tb_cursos` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nm_curso` VARCHAR(45) NULL DEFAULT NULL,
+  `ds_curso` TEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
