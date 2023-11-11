@@ -12,7 +12,7 @@ $pre = "../";
 
   <!-- Verificação de sessão -->
 <?php if(isset($_SESSION['id'])){?>
-  <a href="<?php echo $pre;?>perfil.php">Perfil</a> |
+  <a href="<?php echo $pre;?>perfil.php">Perfil</a> | <a href="php/logout.php">Sair</a> |
 <?php }else{?>
   <a href="<?php echo $pre;?>login.php">Login</a> |
 <?php }?>

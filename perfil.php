@@ -21,11 +21,17 @@ $script_count_noticias->execute();
 $count = $script_count_noticias->fetch(PDO::FETCH_ASSOC);
 $n_de_noticias = $count['COUNT(*)'];
 
-//Consulta Count Notícia
-$script_count_noticias = $conn->prepare("SELECT COUNT(*) FROM tb_noticia WHERE id='$id'");
-$script_count_noticias->execute();
-$count = $script_count_noticias->fetch(PDO::FETCH_ASSOC);
-$n_de_noticias = $count['COUNT(*)'];
+//Consulta Count Like
+$script_count_likes = $conn->prepare("SELECT sum(nr_curtidas) FROM tb_noticia WHERE id='$id'");
+$script_count_likes->execute();
+$likes = $script_count_likes->fetch(PDO::FETCH_ASSOC);
+$n_de_curtidas = $likes['sum(nr_curtidas)'];
+
+//Consulta Count Views
+$script_count_views = $conn->prepare("SELECT sum(views) FROM tb_noticia WHERE id='$id'");
+$script_count_views->execute();
+$views = $script_count_views->fetch(PDO::FETCH_ASSOC);
+$n_de_views = $views['sum(views)'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -119,6 +125,11 @@ $(document).ready(function() {
 
 <div>
   <h4>Número de avaliações</h4>
-  <p><?php echo $n_de_noticias;?></p>
+  <p><?php echo $n_de_curtidas;?></p>
+</div>
+
+<div>
+  <h4>Número de views</h4>
+  <p><?php echo $n_de_views;?></p>
 </div>
 </html>

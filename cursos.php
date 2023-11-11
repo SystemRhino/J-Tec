@@ -6,9 +6,12 @@ if(!isset($_GET['id'])){
 }
 $id = $_GET['id'];
 
-//Consulta Comentarios
+//Consulta Curso
 $script_cursos = $conn->prepare("SELECT * FROM tb_cursos WHERE id ='$id'");
 $script_cursos->execute();
+if ($script_cursos->rowCount()<1) {
+	header('location:./');
+}
 $curso = $script_cursos->fetch(PDO::FETCH_ASSOC);
 ?>
 
