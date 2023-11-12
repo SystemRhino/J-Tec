@@ -56,14 +56,14 @@ $att_views->execute();
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 	<meta charset="utf-8">
-	<title><?php echo $noticia['nm_noticia']; ?></title>
+	<title><?php echo mb_convert_case($noticia['nm_noticia'], MB_CASE_TITLE, "UTF-8"); ?></title>
 </head>
 <body>
 <!-- Nav -->
 <?php include('nav.php');?>
 
 	<img height="450" width="700" src="img/<?php echo $noticia['img_1'];?>"><br>
-	<h2><?php echo $noticia['nm_noticia']; ?></h2><br>
+	<h2><?php echo mb_convert_case($noticia['nm_noticia'], MB_CASE_TITLE, "UTF-8"); ?></h2><br>
 	<p><?php echo $noticia['ds_noticia']; ?></p>
   <i><?php echo $noticia['data_post']; ?></i>
 	<p><?php echo $noticia['nr_curtidas']; ?></p>

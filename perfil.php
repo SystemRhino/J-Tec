@@ -16,26 +16,46 @@ $script_noticias = $conn->prepare("SELECT * FROM tb_noticia WHERE id_autor = '$i
 $script_noticias->execute();
 
 //Consulta Count Notícia
-$script_count_noticias = $conn->prepare("SELECT COUNT(*) FROM tb_noticia WHERE id='$id'");
+$script_count_noticias = $conn->prepare("SELECT COUNT(*) FROM tb_noticia WHERE id_autor='$id'");
 $script_count_noticias->execute();
-$count = $script_count_noticias->fetch(PDO::FETCH_ASSOC);
-$n_de_noticias = $count['COUNT(*)'];
+$count_not = $script_count_noticias->fetch(PDO::FETCH_ASSOC);
+$n_de_noticias = $count_not['COUNT(*)'];
 
-//Consulta Count Like
-$script_count_likes = $conn->prepare("SELECT sum(nr_curtidas) FROM tb_noticia WHERE id='$id'");
-$script_count_likes->execute();
-$likes = $script_count_likes->fetch(PDO::FETCH_ASSOC);
-$n_de_curtidas = $likes['sum(nr_curtidas)'];
+//Consulta Count like
+$script_count_like = $conn->prepare("SELECT COUNT(*) FROM tb_noticia WHERE id_autor='$id'");
+$script_count_like->execute();
+$count_like = $script_count_like->fetch(PDO::FETCH_ASSOC);
 
-//Consulta Count Views
-$script_count_views = $conn->prepare("SELECT sum(views) FROM tb_noticia WHERE id='$id'");
+// Verificação like
+if ($count_like['COUNT(*)'] == 0) {
+  $like = '0';
+}else{
+  //Consulta Soma Like
+  $script_soma_likes = $conn->prepare("SELECT sum(nr_curtidas) FROM tb_noticia WHERE id_autor='$id'");
+  $script_soma_likes->execute();
+  $likes = $script_soma_likes->fetch(PDO::FETCH_ASSOC);
+  $like = $likes['sum(nr_curtidas)'];
+}
+
+//Consulta Count views
+$script_count_views = $conn->prepare("SELECT COUNT(*) FROM tb_noticia WHERE id_autor='$id'");
 $script_count_views->execute();
-$views = $script_count_views->fetch(PDO::FETCH_ASSOC);
-$n_de_views = $views['sum(views)'];
+$count_views = $script_count_views->fetch(PDO::FETCH_ASSOC);
+
+if ($count_views['COUNT(*)'] == 0) {
+  $views = '0';
+}else{
+  //Consulta Soma Views
+  $script_soma_views = $conn->prepare("SELECT sum(views) FROM tb_noticia WHERE id_autor='$id'");
+  $script_soma_views->execute();
+  $count_views = $script_soma_views->fetch(PDO::FETCH_ASSOC);
+  $views = $count_views['sum(views)'];
+}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="Cache-Control" content="max-age=0,must-revalidate">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 	<meta charset="utf-8">
@@ -125,11 +145,11 @@ $(document).ready(function() {
 
 <div>
   <h4>Número de avaliações</h4>
-  <p><?php echo $n_de_curtidas;?></p>
+  <p><?php echo $like;?></p>
 </div>
 
 <div>
   <h4>Número de views</h4>
-  <p><?php echo $n_de_views;?></p>
+  <p><?php echo $views;?></p>
 </div>
 </html>

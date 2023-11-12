@@ -58,11 +58,12 @@ $search_nm->execute();
 <?php  
 while ($comentario = $script_comentarios->fetch(PDO::FETCH_ASSOC)) {
 	$id_user = $comentario['id_user'];
+	$id_comentario = $comentario['id_noticia'];
 	$script_users = $conn->prepare("SELECT * FROM tb_users WHERE id ='$id_user'");
 	$script_users->execute();	
 	$user = $script_users->fetch(PDO::FETCH_ASSOC);
 	?>
-	<b><?php echo $user['nm_user'];?></b><p><i><?php echo $comentario['comentario']?></i></p><p><?php echo $comentario['data'];?></p>
+	<div onclick="window.location.href = 'view.php?id=<?= $id_comentario;?>'"><b><?php echo $user['nm_user'];?></b><p><i><?php echo $comentario['comentario']?></i></p><p><?php echo $comentario['data'];?></p></div>
 	<hr>
 <?php }?>
 </body>

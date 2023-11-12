@@ -3,7 +3,7 @@ include('php/conecta.php');
 session_start();
 
 //Consulta Placar
-$script_placar = $conn->prepare("SELECT * FROM tb_placar");
+$script_placar = $conn->prepare("SELECT * FROM tb_placar ORDER BY id DESC");
 $script_placar->execute();
 $placar = $script_placar->fetch(PDO::FETCH_ASSOC);
 
@@ -76,7 +76,7 @@ $nome_autor = $script_nome_autor->fetch(PDO::FETCH_ASSOC);
 ?>
 		<div onclick="window.location.href = 'view.php?id=<?= $noticia['id']?>'">
 			<img width="150" height="150" src="img/<?php echo $noticia['img_1']; ?>">	
-			<p><?php echo $noticia['nm_noticia']."<br>"; ?></p>
+			<p><?php echo mb_convert_case($noticia['nm_noticia'], MB_CASE_TITLE, "UTF-8")."<br>"; ?></p>
 			<p>Autor: <?php echo $nome_autor['nm_user']."<br>"; ?></p>
   		</div>
 <?php 
@@ -99,7 +99,7 @@ $nome_autor_alta = $script_nome_autor_alta->fetch(PDO::FETCH_ASSOC);
 ?>
 		<div onclick="window.location.href = 'view.php?id=<?= $noticia_alta['id']?>'">
 			<img width="150" height="150" src="img/<?php echo $noticia_alta['img_1']; ?>">	
-			<p><?php echo $noticia_alta['nm_noticia']."<br>"; ?></p>
+			<p><?php echo mb_convert_case($noticia_alta['nm_noticia'], MB_CASE_TITLE, "UTF-8")."<br>"; ?></p>
 			<p>Autor: <?php echo $nome_autor_alta['nm_user']."<br>"; ?></p>
   		</div>
 <?php }}?>
@@ -114,7 +114,7 @@ $nome_autor_popular = $script_nome_autor_popular->fetch(PDO::FETCH_ASSOC);
 ?>
 		<div onclick="window.location.href = 'view.php?id=<?= $noticia_populares['id']?>'">
 			<img width="150" height="150" src="img/<?php echo $noticia_populares['img_1']; ?>">	
-			<p><?php echo $noticia_populares['nm_noticia']."<br>"; ?></p>
+			<p><?php echo mb_convert_case($noticia_populares['nm_noticia'], MB_CASE_TITLE, "UTF-8")."<br>"; ?></p>
 			<p>Autor: <?php echo $nome_autor_popular['nm_user']."<br>"; ?></p>
   		</div>
 <?php }?>
@@ -125,11 +125,12 @@ $nome_autor_popular = $script_nome_autor_popular->fetch(PDO::FETCH_ASSOC);
 <?php  
 while ($comentario = $script_comentarios->fetch(PDO::FETCH_ASSOC)) {
 	$id_user = $comentario['id_user'];
+	$id_comentario = $comentario['id_noticia'];
 	$script_users = $conn->prepare("SELECT * FROM tb_users WHERE id ='$id_user'");
 	$script_users->execute();	
 	$user = $script_users->fetch(PDO::FETCH_ASSOC);
 	?>
-	<div onclick="window.location.href = 'view.php?id=<?= $comentario['id_noticia']?>'"><b><?php echo $user['nm_user'];?></b><p><i><?php echo $comentario['comentario']?></i></p><p><?php echo $comentario['data'];?></p></div>
+	<div onclick="window.location.href = 'view.php?id=<?= $id_comentario;?>'"><b><?php echo $user['nm_user'];?></b><p><i><?php echo $comentario['comentario']?></i></p><p><?php echo $comentario['data'];?></p></div>
 	<hr>
 <?php }?>
 

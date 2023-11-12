@@ -22,6 +22,9 @@ $pre = "../";
 <?php }?>
 
   <!-- Pesquisar -->
+  <head>
+    <meta name="Cache-Control" content="max-age=0,must-revalidate">
+  </head>
 <form action="<?php echo $pre;?>search.php" method="GET">
 	<input type="text" name="data" placeholder="Pesquise uma noticia">
 	<input type="submit" value="Pesquisar">
