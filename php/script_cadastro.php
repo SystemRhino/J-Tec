@@ -64,7 +64,7 @@ if($ext == '.jpg' || $ext == 'jpeg' || $ext == '.png'){
 				 session_start();
 				 $_SESSION['id'] = $lista['id'];
 				 $_SESSION['nivel'] = $lista['id_nivel'];
-				 echo "<meta HTTP-EQUIV='refresh' CONTENT='0'>";
+				 echo "<script type='text/javascript'>window.location.reload(true);</script>";
 				} 
 			}catch (PDOException $e) {
 					echo 'Error: ' . $e->getMessage();

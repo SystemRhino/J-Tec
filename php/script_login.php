@@ -20,7 +20,7 @@
 			$dado = $stmt->fetch(PDO::FETCH_ASSOC);
 			$_SESSION['id'] = $dado['id'];
 			$_SESSION['nivel'] = $dado['id_nivel'];
-			echo "<meta HTTP-EQUIV='refresh' CONTENT='0'>";
+			echo "<script type='text/javascript'>window.location.reload(true);</script>";
 		}else{
 			echo "Usuario ou senha incorretos!";
 		}

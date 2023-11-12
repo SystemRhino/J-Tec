@@ -23,7 +23,7 @@ $id_user = $_POST['id_user'];
 		   // Remove curtida
 		  $att_like = $conn->prepare("DELETE FROM tb_like WHERE (`id` = '$id_like')");
 		  $att_like->execute();
-		  echo "<meta HTTP-EQUIV='refresh' CONTENT='0'>";
+		  echo "<script type='text/javascript'>window.location.reload(true);</script>";
 
 	}else{
 		$qnt = $qnt_like['nr_curtidas']+1;
@@ -36,7 +36,7 @@ $id_user = $_POST['id_user'];
 	    ':id_user' => $id_user,
 	    ':id_noticia' => $id_noticia
   		));
-  		echo "<meta HTTP-EQUIV='refresh' CONTENT='0'>";
+  		echo "<script type='text/javascript'>window.location.reload(true);</script>";
 	}
 
 

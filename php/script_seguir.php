@@ -13,7 +13,7 @@ $id_user = $_POST['id_user'];
 		   // Remove seguidor
 		  $att_seguidor = $conn->prepare("DELETE FROM tb_seguidores WHERE id_autor = '$id_autor' and id_seguidor = '$id_user'");
 		  $att_seguidor->execute();
-		  echo "<meta HTTP-EQUIV='refresh' CONTENT='0'>";
+		  echo "<script type='text/javascript'>window.location.reload(true);</script>";
 
 	}else{
 
@@ -23,7 +23,7 @@ $id_user = $_POST['id_user'];
 	    ':id_seguidor' => $id_user,
 	    ':id_autor' => $id_autor
   		));
-  		echo "<meta HTTP-EQUIV='refresh' CONTENT='0'>";
+  		echo "<script type='text/javascript'>window.location.reload(true);</script>";
 	}
 
 

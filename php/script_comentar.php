@@ -16,7 +16,7 @@ if ($_POST['comentario'] === "") {
 	    ':data' => $datetime->format('Y-m-d'),
 	    ':id_noticia' => $_POST['id_noticia']
 	  ));
-	  echo "<meta HTTP-EQUIV='refresh' CONTENT='1'>";
+	  echo "<script type='text/javascript'>window.location.reload(true);</script>";
 	} catch(PDOException $e) {
 	    echo $e;
 	}
