@@ -12,7 +12,7 @@ if ($_SESSION['nivel'] != 1) {
 		try {
 		  $att_placar = $conn->prepare("UPDATE tb_placar SET nm_time_1 = '$nm_time_1', nm_time_2 = '$nm_time_2', gols_1 = '$gols_1', nm_time_2 = '$nm_time_2' WHERE id = '$id'");
 		  $att_placar->execute();
-		  echo "<meta HTTP-EQUIV='refresh' CONTENT='0'>";
+		  echo "<script type='text/javascript'>window.location.reload(true);</script>";
 		} catch(PDOException $e) {
 		    echo $e;
 		}

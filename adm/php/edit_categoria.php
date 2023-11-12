@@ -9,7 +9,7 @@ if ($_SESSION['nivel'] != 1) {
 		try {
 		  $att_categoria = $conn->prepare("UPDATE tb_categoria SET nm_categoria = '$nm_categoria' WHERE id = '$id'");
 		  $att_categoria->execute();
-		  echo "<meta HTTP-EQUIV='refresh' CONTENT='0'>";
+		  echo "<script type='text/javascript'>window.location.reload(true);</script>";
 		} catch(PDOException $e) {
 		    echo $e;
 		}

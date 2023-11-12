@@ -1,21 +1,33 @@
+<?php 
+if(isset($dir) && $dir = "adm"){
+$pre = "../";
+}else{
+  $pre = "";
+}
+?>
 <nav style="background-color: grey;">
   <a href="/J-TEC/">Home</a> |
-  <a href="cursos.php">Cursos</a> |
+  <a href="<?php echo $pre;?>cursos.php">Cursos</a> |
 
 
   <!-- Verificação de sessão -->
 <?php if(isset($_SESSION['id'])){?>
-  <a href="perfil.php">Perfil</a> |
+  <a href="<?php echo $pre;?>perfil.php">Perfil</a> | <a href="php/logout.php">Sair</a> |
 <?php }else{?>
-  <a href="login.php">Login</a> |
+  <a href="<?php echo $pre;?>login.php">Login</a> |
 <?php }?>
 
 <?php if(isset( $_SESSION['nivel']) && $_SESSION['nivel'] == 1){?>
-  <a href="./adm/">Admin</a> |
+  <a href="<?php echo $pre;?>adm/">Admin</a> |
 <?php }?>
 
+  <head>
+    <meta name="Cache-Control" content="max-age=0,must-revalidate">
+    <meta charset="utf-8">
+  </head>
+
   <!-- Pesquisar -->
-<form action="search.php" method="GET">
+<form action="<?php echo $pre;?>search.php" method="GET">
 	<input type="text" name="data" placeholder="Pesquise uma noticia">
 	<input type="submit" value="Pesquisar">
 </form>

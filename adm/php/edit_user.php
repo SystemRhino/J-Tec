@@ -13,7 +13,7 @@ if ($_SESSION['nivel'] != 1) {
 		  $att_user = $conn->prepare("UPDATE tb_users SET `ds_login` = '$ds_login', `ds_senha` = '$ds_senha', `nm_user` = '$nm_user', `ds_img` = 'user.png', `id_nivel` = '$id_nivel' WHERE (`id` = '$id');
           ");
 		  $att_user->execute();
-		  echo "<meta HTTP-EQUIV='refresh' CONTENT='0'>";
+		  echo "<script type='text/javascript'>window.location.reload(true);</script>";
 		} catch(PDOException $e) {
 		    echo $e;
 		}
