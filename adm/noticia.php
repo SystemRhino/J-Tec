@@ -4,6 +4,7 @@ if ($_SESSION['nivel'] != 1) {
 	header('location:../');
 }
 include('php/conecta.php');
+include('php/nav.php');
 
 //Consulta Categoria
 $script_categoria = $conn->prepare("SELECT * FROM tb_categoria");
@@ -121,11 +122,12 @@ $user = $script_user->fetch(PDO::FETCH_ASSOC);
                 <td><?php echo $user['nm_user']; ?></td>
                 <td><?php echo $noticia['views']; ?></td>
 
-				<td><a href="php/delete_noticia.php?id=<?php echo $noticia['id'];?>">Excluir</a></td>
+				<td><button  onclick="window.location.href = 'php/delete_noticia.php?id=<?php echo $noticia['id'];?>'">Excluir</button></td>
 				<td><button  data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $noticia['id']; ?>">Editar</button></td>
+				<td><button onclick="window.location.href = '../view.php?id=<?php echo $noticia['id']; ?>'">Ver</button></td>
 			</tr>
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
 		$(document).ready(function(){
 			$("#edit_noticia_<?php echo $noticia['id']; ?>").click(function(){
   			$.ajax({
@@ -144,7 +146,7 @@ $user = $script_user->fetch(PDO::FETCH_ASSOC);
 		});
   	});
 });
-	</script>
+	</script>-->
 
 			<!-- Modal -->
 			<div class="modal fade" id="exampleModal<?php echo $noticia['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -158,8 +160,14 @@ $user = $script_user->fetch(PDO::FETCH_ASSOC);
 			      </div>
 			      <div class="modal-body">
 			      	<!-- Inputs -->
-			       <input type="text" id="nm_noticia_<?php echo $noticia['id']; ?>" placeholder="Titulo" value="<?php echo $noticia['nm_noticia']; ?>"><br>
-			       <input type="text" id="ds_noticia_<?php echo $noticia['id']; ?>" placeholder="Descrição" value="<?php echo $noticia['ds_noticia']; ?>"><br>
+			      	<form id="form_edit_noticia_<?php echo $noticia['id']; ?>" method="post" enctype="multipart/form-data">
+					<input type="file" name="ds_img"><br>
+					<input type="file" name="ds_img_2"><br>
+
+					<input style="display: none;" type="text" name="id" placeholder="id" value="<?php echo $noticia['id']; ?>"><br>
+
+			       <input type="text" name="nm_noticia" placeholder="Titulo" value="<?php echo $noticia['nm_noticia']; ?>"><br>
+			       <input type="text" name="ds_noticia" placeholder="Descrição" value="<?php echo $noticia['ds_noticia']; ?>"><br>
 
 
 <?php 
@@ -173,14 +181,14 @@ $script_user_select->execute();
 ?>
 
 					<!-- Select Categoria -->
-					<select id="option_categoria_<?php echo $noticia['id'];?>">
+					<select name="categoria">
 					<?php while($categoria_select = $script_categoria_select->fetch(PDO::FETCH_ASSOC)){?>
 					<option value="<?php echo $categoria_select['id'];?>"><?php echo $categoria_select['nm_categoria'];?></option>
 					<?php }?>
 				   </select>
 <br>
 				   <!-- Select User -->
-				   <select id="option_user_<?php echo $noticia['id'];?>">
+				   <select name="autor">
 					<?php while($user_select = $script_user_select->fetch(PDO::FETCH_ASSOC)){?>
 					<option value="<?php echo $user_select['id'];?>"><?php echo $user_select['nm_user'];?></option>
 					<?php }?>
@@ -189,11 +197,37 @@ $script_user_select->execute();
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-			        <button type="button" class="btn btn-primary" id="edit_noticia_<?php echo $noticia['id']; ?>">Salvar Alterações</button>
+			        <button type="submit" class="btn btn-primary" name="edit_noticia_<?php echo $noticia['id']; ?>">Salvar Alterações</button>
+			        </form>
 			      </div>
 			    </div>
 			  </div>
 			</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#form_edit_noticia_<?php echo $noticia['id']; ?>').submit(function(event) {
+    event.preventDefault(); // Impede o envio padrão do formulário
+    var form_data = new FormData(this);
+
+  $.ajax({
+    url: 'edit_noticia.php', // Arquivo PHP para processar os dados
+    type: 'POST',
+    data: form_data, 
+    contentType: false,
+    processData: false,
+    success: function(response) {
+		$("span").html(response); // Exibe a resposta do servidor
+    
+      },
+    error: function(xhr, status, error) {
+    console.log(xhr.responseText);
+
+      }
+    });
+  });
+});
+	</script>
 
 <?php }?>
 		</tbody>

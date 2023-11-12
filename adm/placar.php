@@ -4,6 +4,7 @@ if ($_SESSION['nivel'] != 1) {
 	header('location:../');
 }
 include('php/conecta.php');
+include('../nav.php');
 
 //Consulta Placar
 $script_placar = $conn->prepare("SELECT * FROM tb_placar");
