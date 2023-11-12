@@ -14,7 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema jtec
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `jtec` DEFAULT CHARACTER SET latin1 ;
+CREATE SCHEMA IF NOT EXISTS `jtec` DEFAULT CHARACTER SET utf32 ;
 USE `jtec` ;
 
 -- -----------------------------------------------------
@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS `jtec`.`tb_categoria` (
   `nm_categoria` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = latin1;
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -41,7 +41,19 @@ CREATE TABLE IF NOT EXISTS `jtec`.`tb_comentario` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = latin1;
+DEFAULT CHARACTER SET = utf32;
+
+
+-- -----------------------------------------------------
+-- Table `jtec`.`tb_cursos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `jtec`.`tb_cursos` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nm_curso` VARCHAR(45) NULL DEFAULT NULL,
+  `ds_curso` TEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -54,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `jtec`.`tb_like` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = latin1;
+DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -66,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `jtec`.`tb_nivel` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = latin1;
+DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -86,8 +98,23 @@ CREATE TABLE IF NOT EXISTS `jtec`.`tb_noticia` (
   `views` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = latin1;
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf32;
+
+
+-- -----------------------------------------------------
+-- Table `jtec`.`tb_placar`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `jtec`.`tb_placar` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nm_time_1` VARCHAR(45) NULL DEFAULT NULL,
+  `gols_1` VARCHAR(45) NULL DEFAULT NULL,
+  `nm_time_2` VARCHAR(45) NULL DEFAULT NULL,
+  `gols_2` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 7
+DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -99,8 +126,7 @@ CREATE TABLE IF NOT EXISTS `jtec`.`tb_seguidores` (
   `id_seguidor` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = latin1;
+DEFAULT CHARACTER SET = utf32;
 
 
 -- -----------------------------------------------------
@@ -116,42 +142,44 @@ CREATE TABLE IF NOT EXISTS `jtec`.`tb_users` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = latin1;
-
-CREATE TABLE `jtec`.`tb_placar` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `nm_time_1` VARCHAR(45) NULL,
-  `gols_1` VARCHAR(45) NULL,
-  `nm_time_2` VARCHAR(45) NULL,
-  `gols_2` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf32;
 
+
 -- -----------------------------------------------------
--- Table `jtec`.`tb_cursos`
+-- Insert `jtec`.`tb_categoria`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `jtec`.`tb_cursos` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `nm_curso` VARCHAR(45) NULL DEFAULT NULL,
-  `ds_curso` TEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = utf8;
+INSERT INTO `jtec`.`tb_categoria` (`id`,`nm_categoria`) VALUES ('1','Tecnologia');
+INSERT INTO `jtec`.`tb_categoria` (`id`,`nm_categoria`) VALUES ('2','Jogos');
+INSERT INTO `jtec`.`tb_categoria` (`id`,`nm_categoria`) VALUES ('3','Meio Ambiente');
+INSERT INTO `jtec`.`tb_categoria` (`id`,`nm_categoria`) VALUES ('4','Saúde');
+INSERT INTO `jtec`.`tb_categoria` (`id`,`nm_categoria`) VALUES ('5','Administração');
+
+
+-- -----------------------------------------------------
+-- Insert `jtec`.`tb_nivel`
+-- -----------------------------------------------------
+INSERT INTO `jtec`.`tb_nivel` (`id`, `nm_nivel`) VALUES ('1', 'Admin');
+INSERT INTO `jtec`.`tb_nivel` (`id`, `nm_nivel`) VALUES ('2', 'User');
+
+
+-- -----------------------------------------------------
+-- Insert `jtec`.`tb_users`
+-- -----------------------------------------------------
+INSERT INTO `jtec`.`tb_users` (`id`, `ds_login`, `ds_senha`, `nm_user`, `ds_img`, `id_nivel`) VALUES ('1','webrain@gmail.com', '123', 'Webrain', 'webrain.jpg', '1');
+INSERT INTO `jtec`.`tb_users` (`id`, `ds_login`, `ds_senha`, `nm_user`, `ds_img`, `id_nivel`) VALUES ('2','user@gmail.com', '123', 'Usuario', 'usuario.jpg', '2');
+
+-- -----------------------------------------------------
+-- Insert `jtec`.`tb_placar`
+-- -----------------------------------------------------
+INSERT INTO `jtec`.`tb_placar` (`nm_time_1`, `gols_1`, `nm_time_2`, `gols_2`) VALUES ('3MIN', '98', '3MAM', '2');
+
+-- -----------------------------------------------------
+-- Insert `jtec`.`tb_noticia`
+-- -----------------------------------------------------
+INSERT INTO `jtec`.`tb_noticia` (`id`, `nm_noticia`, `ds_noticia`, `img_1`, `img_2`, `nr_curtidas`, `data_post`, `id_categoria`, `id_autor`, `views`) VALUES ('1', 'Eleições para diretor começam', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'eleicao.png', 'eleicao.png', '0', '2023-11-11', '5', '1', '20');
+INSERT INTO `jtec`.`tb_noticia` (`id`, `nm_noticia`, `ds_noticia`, `img_1`, `img_2`, `nr_curtidas`, `data_post`, `id_categoria`, `id_autor`, `views`) VALUES ('2', 'Alunos de Etec Expõem projetos sobre meio ambiente ', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'projetomam.jpg', 'projetomam.jpg', '0', '2023-11-11', '3', '1', '0');
+INSERT INTO `jtec`.`tb_noticia` (`id`, `nm_noticia`, `ds_noticia`, `img_1`, `img_2`, `nr_curtidas`, `data_post`, `id_categoria`, `id_autor`, `views`) VALUES ('3', 'Feira Tecnológica Reúne o Dobro do Esperado', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'feira.jpg', 'feira.jpg', '0', '2023-11-11', '1', '1', '150');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-
-INSERT INTO `jtec`.`tb_users` (`id`, `ds_login`, `ds_senha`, `nm_user`, `ds_img`, `id_nivel`) VALUES ('1', 'teste@gmail.com', 'teste', 'teset', 'user.png', '1');
-
-INSERT INTO `jtec`.`tb_categoria` (`id`, `nm_categoria`) VALUES ('1', 'Categoria 1');
-INSERT INTO `jtec`.`tb_categoria` (`id`, `nm_categoria`) VALUES ('2', 'Categoria 2');
-
-INSERT INTO `jtec`.`tb_nivel` (`id`, `nm_nivel`) VALUES ('1', 'Admin');
-
-INSERT INTO `jtec`.`tb_noticia` (`id`, `nm_noticia`, `ds_noticia`, `img_1`, `nr_curtidas`, `id_categoria`, `id_autor`, `views`) VALUES ('1', 'Titulo 1', 'Descircao', 'etec.jpg', '0', '1', '1', '0');
-
-
